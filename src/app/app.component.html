@@ -3,7 +3,7 @@
   <h1>
     Welcome to Firebase app!
   </h1>
-  
+
 </div>
 
 <div>
@@ -12,17 +12,21 @@
 
 
 <div *ngIf="showUser">
-  <p>You are logged in as <b>{{username}}</b></p>
+  <p>You are logged in as
+    <b>{{username}}</b>
+  </p>
   <button (click)="logOut()">Log Out</button>
 
   <h3>Products in the database</h3>
   <ul>
-      <li class="text" *ngFor="let item of items$ | async">
-        {{item.name}} {{item.fat}} {{item.carbs}} {{item.proteins}}
-      </li>
-    </ul>
+    <li class="text" *ngFor="let item of items$ | async">
+      {{item.name}} {{item.fat}} {{item.carbs}} {{item.proteins}}
+    </li>
+  </ul>
 
-  <div><button (click)="addMore()">Add More</button></div>  
+  <div>
+    <button (click)="addMore()">Add More</button>
+  </div>
 
 
 
