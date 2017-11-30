@@ -4,7 +4,6 @@ import { AuthService } from '../shared/auth.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, AngularFireDatabaseModule, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
-// import { firestore } from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireObject } from 'angularfire2/database/interfaces';
 
@@ -43,6 +42,7 @@ export class AppComponent implements OnInit {
           this.showUser = true;
           this.username = result.user['displayName'];
 
+          // const itemsList = this.db.list<any>('/product', ref => ref.orderByChild('name').equalTo('Fish'));
           const itemsList = this.db.list<any>('/product');
           this.items$ = itemsList.valueChanges();
           this.items$.subscribe(console.log);
@@ -62,4 +62,15 @@ export class AppComponent implements OnInit {
         this.user = null;
     }
 
+    addMore() {
+      let int: number;
+      this.db.database.ref('/product').on('value', function(snapshot) {
+        int = snapshot.numChildren();
+      });
+
+      int = int + 1;
+
+      const model = {'name': 'Butter', 'fat': 22, 'carbs': 18, 'proteins': 30};
+      this.db.database.ref('/product').child(int.toString()).set(model);
+    }
 }
