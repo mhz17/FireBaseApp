@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
-
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, AngularFireDatabaseModule, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
-import { Observable } from 'rxjs/Observable';
 import { AngularFireObject } from 'angularfire2/database/interfaces';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/switchMap';
+import { FormsModule } from '@angular/forms';
+import { Product } from './models/product.model';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +17,23 @@ import { AngularFireObject } from 'angularfire2/database/interfaces';
 })
 export class AppComponent implements OnInit {
 
+
   showUser: boolean;
   username: string;
   user = null;
-  public items$: Observable<any>;
-  // topics: FirebaseListObservable<any[]>;
+  items: Observable<any>;
   prods: AngularFireList<any>;
+  products: Array<any> = [];
+  showValidation: boolean;
+  product: Product;
 
   constructor(
     private auth: AuthService,
     public db: AngularFireDatabase) { }
 
+
     ngOnInit() {
+      this.product = new Product(null, null, null, null);
       this.auth.getAuthState().subscribe(
         (user) => this.user = user);
         if (this.user != null) {
@@ -41,12 +49,8 @@ export class AppComponent implements OnInit {
 
           this.showUser = true;
           this.username = result.user['displayName'];
-
-          // const itemsList = this.db.list<any>('/product', ref => ref.orderByChild('name').equalTo('Fish'));
           const itemsList = this.db.list<any>('/product');
-          this.items$ = itemsList.valueChanges();
-          this.items$.subscribe(console.log);
-
+          this.items = itemsList.valueChanges();
 
         } else {
           this.showUser = false;
@@ -63,14 +67,34 @@ export class AppComponent implements OnInit {
     }
 
     addMore() {
-      let int: number;
-      this.db.database.ref('/product').on('value', function(snapshot) {
-        int = snapshot.numChildren();
+
+      let int;
+      const queryObservable = this.db.list<any>('/product', ref => ref.orderByKey().limitToLast(1)).snapshotChanges();
+
+      queryObservable.subscribe(queriedItems => {
+        int = Number(queriedItems[0].key) + 1;
+
+        console.log('-----------------');
+        console.log('id: ' + int);
+        console.log('name: ' + this.product.name);
+        console.log('fat: ' + this.product.fat);
+        console.log('carbs: ' + this.product.carbs);
+        console.log('proteins: ' + this.product.proteins);
+
+        // const model = {'name':  this.name, 'fat': this.fat, 'carbs': this.carbs, 'proteins': this.proteins};
+        // this.db.database.ref('/product').child(int.toString()).set(model);
+
       });
 
-      int = int + 1;
+    }
 
-      const model = {'name': 'Butter', 'fat': 22, 'carbs': 18, 'proteins': 30};
-      this.db.database.ref('/product').child(int.toString()).set(model);
+    onSubmit() {
+      console.log('submit: ' + this.product.fat);
+      if (this.product.fat === null || this.product.proteins === null || this.product.carbs === null || this.product.name === null) {
+        this.showValidation = true;
+      } else {
+        this.showValidation = false;
+      }
+
     }
 }
