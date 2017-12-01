@@ -66,35 +66,32 @@ export class AppComponent implements OnInit {
         this.user = null;
     }
 
-    addMore() {
+    addProduct() {
 
       let int;
       const queryObservable = this.db.list<any>('/product', ref => ref.orderByKey().limitToLast(1)).snapshotChanges();
 
       queryObservable.subscribe(queriedItems => {
         int = Number(queriedItems[0].key) + 1;
-
-        console.log('-----------------');
-        console.log('id: ' + int);
-        console.log('name: ' + this.product.name);
-        console.log('fat: ' + this.product.fat);
-        console.log('carbs: ' + this.product.carbs);
-        console.log('proteins: ' + this.product.proteins);
-
-        // const model = {'name':  this.name, 'fat': this.fat, 'carbs': this.carbs, 'proteins': this.proteins};
+        console.log(queriedItems);
+        console.log('Testing....');
+        // const model = {'name':  this.product.name, 'fat': this.product.fat, 'carbs':
+        // this.product.carbs, 'proteins': this.product.proteins};
+        // console.log('model: ' + JSON.stringify(model));
         // this.db.database.ref('/product').child(int.toString()).set(model);
 
       });
 
     }
 
-    onSubmit() {
-      console.log('submit: ' + this.product.fat);
-      if (this.product.fat === null || this.product.proteins === null || this.product.carbs === null || this.product.name === null) {
-        this.showValidation = true;
-      } else {
-        this.showValidation = false;
-      }
+    deleteProduct() {
 
-    }
+      const queryObservable = this.db.list<any>('/product', ref => ref.orderByKey().startAt('1000')).valueChanges();
+
+      queryObservable.subscribe(snapshots => {
+        snapshots.forEach(snapshot => {
+          snapshot.ref.remove();
+        });
+    });
+  }
 }

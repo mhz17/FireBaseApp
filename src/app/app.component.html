@@ -30,20 +30,20 @@
     </div>
     <div *ngIf="name.invalid && name.dirty">First name is required</div>
     <div> <label for="fat">Fat:</label>
-      <input #fat="ngModel" required type="text" name="fat" [(ngModel)]="product.fat" id="fat">
+      <input #fat="ngModel" required type="text" name="fat" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" [(ngModel)]="product.fat" id="fat">
     </div>
-    <div *ngIf="fat.invalid && fat.dirty">Fat amount is required</div>
+    <div *ngIf="fat.invalid && fat.dirty">Fat amount is required and has to be numeric value</div>
     <div> <label for="carbs">Carbs:</label>
-      <input #carbs="ngModel" required type="text" name="carbs" [(ngModel)]="product.carbs" id="carbs">
+      <input #carbs="ngModel" required type="text" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" name="carbs" [(ngModel)]="product.carbs" id="carbs">
     </div>
-    <div *ngIf="carbs.invalid && carbs.dirty">Carbs amount is required</div>
+    <div *ngIf="carbs.invalid && carbs.dirty">Carbs amount is required and has to be numeric value</div>
     <div> <label for="proteins">Proteins:</label>
-      <input #proteins="ngModel" required type="text" name="proteins" [(ngModel)]="product.proteins" id="proteins">
+      <input #proteins="ngModel" required type="text" name="proteins" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" [(ngModel)]="product.proteins" id="proteins">
     </div>
-    <div *ngIf="proteins.invalid && proteins.dirty">Proteins amount is required</div>
+    <div *ngIf="proteins.invalid && proteins.dirty">Proteins amount is required and has to be numeric value</div>
 
-    <button (click)="onSubmit()">Add</button>
-    <div *ngIf="showValidation">Fields are required!</div>
+    <button (click)="addProduct()" type="submit" [disabled]="form.invalid">Add</button>
+    <button (click)="deleteProduct()" type="submit">Delete Product</button>
   </div>
 
 </form>
