@@ -17,7 +17,7 @@
       <b>{{username}}</b>
     </p>
     <button (click)="logOut()">Log Out</button>
-
+    <button (click)="deleteProduct()" type="submit">Delete Product</button>
     <h3>Products in the database</h3>
     <ul>
       <li class="text" *ngFor="let item of items | async">
@@ -43,7 +43,7 @@
     <div *ngIf="proteins.invalid && proteins.dirty">Proteins amount is required and has to be numeric value</div>
 
     <button (click)="addProduct()" type="submit" [disabled]="form.invalid">Add</button>
-    <button (click)="deleteProduct()" type="submit">Delete Product</button>
+
   </div>
 
 </form>

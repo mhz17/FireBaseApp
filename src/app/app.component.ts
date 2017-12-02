@@ -26,72 +26,94 @@ export class AppComponent implements OnInit {
   products: Array<any> = [];
   showValidation: boolean;
   product: Product;
+  itemsRef: AngularFireList<any>;
 
   constructor(
     private auth: AuthService,
     public db: AngularFireDatabase) { }
 
 
-    ngOnInit() {
-      this.product = new Product(null, null, null, null);
-      this.auth.getAuthState().subscribe(
-        (user) => this.user = user);
-        if (this.user != null) {
-          this.showUser = true;
-        } else {
-          this.showUser = false;
-        }
+  ngOnInit() {
+    this.product = new Product(null, null, null, null);
+    this.auth.getAuthState().subscribe(
+      (user) => this.user = user);
+    if (this.user != null) {
+      this.showUser = true;
+    } else {
+      this.showUser = false;
     }
+  }
 
-    loginWithGoogle() {
-      this.auth.loginWithGoogle().then((result) => {
-        if (result) {
+  loginWithGoogle() {
+    this.auth.loginWithGoogle().then((result) => {
+      if (result) {
 
-          this.showUser = true;
-          this.username = result.user['displayName'];
-          const itemsList = this.db.list<any>('/product');
-          this.items = itemsList.valueChanges();
+        this.showUser = true;
+        this.username = result.user['displayName'];
+        const itemsList = this.db.list<any>('/product');
+        this.items = itemsList.valueChanges();
 
-        } else {
-          this.showUser = false;
-          this.username = null;
-        }
-      });
-    }
-
-    logOut() {
-      this.auth.logOut();
+      } else {
         this.showUser = false;
         this.username = null;
-        this.user = null;
-    }
-
-    addProduct() {
-
-      let int;
-      const queryObservable = this.db.list<any>('/product', ref => ref.orderByKey().limitToLast(1)).snapshotChanges();
-
-      queryObservable.subscribe(queriedItems => {
-        int = Number(queriedItems[0].key) + 1;
-        console.log(queriedItems);
-        console.log('Testing....');
-        // const model = {'name':  this.product.name, 'fat': this.product.fat, 'carbs':
-        // this.product.carbs, 'proteins': this.product.proteins};
-        // console.log('model: ' + JSON.stringify(model));
-        // this.db.database.ref('/product').child(int.toString()).set(model);
-
-      });
-
-    }
-
-    deleteProduct() {
-
-      const queryObservable = this.db.list<any>('/product', ref => ref.orderByKey().startAt('1000')).valueChanges();
-
-      queryObservable.subscribe(snapshots => {
-        snapshots.forEach(snapshot => {
-          snapshot.ref.remove();
-        });
+      }
     });
+  }
+
+  logOut() {
+    this.auth.logOut();
+    this.showUser = false;
+    this.username = null;
+    this.user = null;
+  }
+
+  addProduct() {
+    // const queryObservable = this.db.list<any>('/product', ref => ref.orderByKey().limitToLast(1)).snapshotChanges();
+
+    // queryObservable.subscribe(queriedItems => {
+    //   int = Number(queriedItems[0].key) + 1;
+    //   console.log(queriedItems);
+    //   console.log('Testing....');
+    //   // const model = {'name':  this.product.name, 'fat': this.product.fat, 'carbs':
+    //   // this.product.carbs, 'proteins': this.product.proteins};
+    //   // console.log('model: ' + JSON.stringify(model));
+    //   // this.db.database.ref('/product').child(int.toString()).set(model);
+    // });
+    const int = this.getMaxID();
+
+  //   const userList = this.db.list('/product');
+  //   userList.set(int.toString(),
+  //     {
+  //       name: this.product.name,
+  //       fat: this.product.fat,
+  //       proteins: this.product.proteins,
+  //       carbs: this.product.carbs
+  //     });
+  }
+
+  getMaxID(): number {
+    this.itemsRef = this.db.list('/product', ref => ref.orderByKey().limitToLast(1));
+
+    this.itemsRef.snapshotChanges(['child_added'])
+    .subscribe(actions => {
+      actions.forEach(action => {
+        console.log('key');
+        console.log(action.key);
+        return Number(action.key) + 1;
+      });
+    });
+
+    return null;
+  }
+
+  deleteProduct() {
+
+    this.itemsRef = this.db.list('/product', ref => ref.orderByKey().startAt('4'));
+    this.itemsRef.snapshotChanges(['child_added'])
+      .subscribe(actions => {
+        actions.forEach(action => {
+          this.itemsRef.remove(action.key);
+        });
+      });
   }
 }
