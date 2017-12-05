@@ -1,14 +1,15 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabase, AngularFireDatabaseModule, AngularFireList } from 'angularfire2/database';
+import { AngularFireModule} from 'angularfire2';
+import { AngularFireDatabase, AngularFireDatabaseModule, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
-import { AngularFireObject } from 'angularfire2/database/interfaces';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 import { FormsModule } from '@angular/forms';
 import { Product } from './models/product.model';
+import { AngularFireAction } from 'angularfire2/database/interfaces';
 
 @Component({
   selector: 'app-root',
@@ -51,7 +52,9 @@ export class AppComponent implements OnInit {
         this.showUser = true;
         this.username = result.user['displayName'];
         const itemsList = this.db.list<any>('/product');
-        this.items = itemsList.valueChanges();
+        this.items = itemsList.snapshotChanges().map(changes => {
+          return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+        });
 
       } else {
         this.showUser = false;
@@ -68,47 +71,13 @@ export class AppComponent implements OnInit {
   }
 
   addProduct() {
-    // const queryObservable = this.db.list<any>('/product', ref => ref.orderByKey().limitToLast(1)).snapshotChanges();
-
-    // queryObservable.subscribe(queriedItems => {
-    //   int = Number(queriedItems[0].key) + 1;
-    //   console.log(queriedItems);
-    //   console.log('Testing....');
-    //   // const model = {'name':  this.product.name, 'fat': this.product.fat, 'carbs':
-    //   // this.product.carbs, 'proteins': this.product.proteins};
-    //   // console.log('model: ' + JSON.stringify(model));
-    //   // this.db.database.ref('/product').child(int.toString()).set(model);
-    // });
-    const int = this.getMaxID();
-
-  //   const userList = this.db.list('/product');
-  //   userList.set(int.toString(),
-  //     {
-  //       name: this.product.name,
-  //       fat: this.product.fat,
-  //       proteins: this.product.proteins,
-  //       carbs: this.product.carbs
-  //     });
+    const userList = this.db.list('/product');
+    userList.push(this.product);
+    this.product = new Product(null, null, null, null);
   }
 
-  getMaxID(): number {
-    this.itemsRef = this.db.list('/product', ref => ref.orderByKey().limitToLast(1));
-
-    this.itemsRef.snapshotChanges(['child_added'])
-    .subscribe(actions => {
-      actions.forEach(action => {
-        console.log('key');
-        console.log(action.key);
-        return Number(action.key) + 1;
-      });
-    });
-
-    return null;
-  }
-
-  deleteProduct() {
-
-    this.itemsRef = this.db.list('/product', ref => ref.orderByKey().startAt('4'));
+  deleteProduct(key) {
+    this.itemsRef = this.db.list('/product', ref => ref.orderByKey().equalTo(key));
     this.itemsRef.snapshotChanges(['child_added'])
       .subscribe(actions => {
         actions.forEach(action => {
@@ -116,4 +85,19 @@ export class AppComponent implements OnInit {
         });
       });
   }
+
+
+  editProduct(updateproduct) {
+    this.product = new Product(updateproduct.name, updateproduct.fat, updateproduct.proteins, updateproduct.carbs);
+  }
+
+  saveProduct(updateproduct) {
+    const itemsRef = this.db.list('product');
+    itemsRef.set(updateproduct.key, { name: this.product.name,
+      fat: this.product.fat,
+      proteins: this.product.proteins,
+      carbs: this.product.carbs });
+      this.product = new Product(null, null, null, null);
+  }
+
 }
