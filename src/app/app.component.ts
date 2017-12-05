@@ -8,7 +8,8 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 import { FormsModule } from '@angular/forms';
-import { Product } from './models/product.model';
+import { Router, ActivatedRoute, ɵROUTER_PROVIDERS } from '@angular/router';
+import { Product, MyProduct } from './models/product.model';
 import { AngularFireAction } from 'angularfire2/database/interfaces';
 
 @Component({
@@ -25,16 +26,19 @@ export class AppComponent implements OnInit {
   items: Observable<any>;
   myitems: Observable<any>;
   product: Product;
+  myproduct: MyProduct;
   itemsRef: AngularFireList<any>;
   userid: string;
 
   constructor(
     private auth: AuthService,
-    public db: AngularFireDatabase) { }
+    public db: AngularFireDatabase,
+    private route: Router) { }
 
 
   ngOnInit() {
     this.product = new Product(null, null, null, null);
+    this.myproduct = new MyProduct(null, null, null, null, null, null, null);
     this.auth.getAuthState().subscribe(
       (user) => this.user = user);
     if (this.user != null) {
@@ -59,6 +63,11 @@ export class AppComponent implements OnInit {
         this.username = null;
       }
     });
+  }
+
+  redirect() {
+   console.log(this.route);
+    this.route.navigate(['login']);
   }
 
   loadAllProducts() {
@@ -99,6 +108,20 @@ export class AppComponent implements OnInit {
       });
   }
 
+  addProductToMyList() {
+
+    const prod = this.myproduct.name;
+    this.myproduct.key = prod['key'];
+    this.myproduct.fat = prod['fat'];
+    this.myproduct.proteins = prod['proteins'];
+    this.myproduct.carbs = prod['carbs'];
+    this.myproduct.name = prod['name'];
+
+    const itemsRef = this.db.list('userproducts/' + this.userid);
+    itemsRef.push(this.myproduct);
+    this.myproduct = new MyProduct(null, null, null, null, null, null, null);
+
+  }
 
   editProduct(updateproduct) {
     this.product = new Product(updateproduct.name, updateproduct.fat, updateproduct.proteins, updateproduct.carbs);

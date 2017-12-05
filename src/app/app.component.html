@@ -1,18 +1,18 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
 <div style="text-align:center">
   <h1>
-    Welcome to Firebase app!
+    Welcome to Diet app!
   </h1>
-
 </div>
 
 <div>
   <button (click)="loginWithGoogle()">Login with Google</button>
 </div>
-
-<form #form="ngForm">
-  <div *ngIf="showUser">
+<div>
+  <button (click)="redirect()">Redirect</button>
+</div>
+<div *ngIf="showUser">
+  <form #form="ngForm">
+    <div class="success">hello</div>
     <p>You are logged in as
       <b>{{username}}</b>
     </p>
@@ -52,16 +52,34 @@
     <div *ngIf="proteins.invalid && proteins.dirty">Proteins amount is required and has to be numeric value</div>
 
     <button (click)="addProduct()" type="submit" [disabled]="form.invalid">Add</button>
+  </form>
 
+  <form #myform="ngForm">
     <h3>My products</h3>
     <ul>
-        <li class="text" *ngFor="let myitem of myitems | async">
-          {{myitem.name}} {{myitem.date}}
-          <!-- <button (click)="deleteProduct(item.key)" type="submit">Delete Product</button>
-          <button (click)="editProduct(item)" type="submit">Edit Product</button>
-          <button (click)="saveProduct(item)" type="submit" [disabled]="form.invalid">Save Product</button> -->
-        </li>
-      </ul>
-  </div>
-
-</form>
+      <li class="text" *ngFor="let myitem of myitems | async">
+        {{myitem.name}} {{myitem.weight}} - {{myitem.date}}
+      </li>
+    </ul>
+    <h4>Add New Product to my list:</h4>
+    <div>
+      Product:
+      <select [(ngModel)]="myproduct.name" name="productname" required>
+        <option *ngFor="let prod of items | async" [ngValue]="prod">
+          {{prod.name}}
+        </option>
+      </select>
+    </div>
+    <div>
+      Date:
+      <input type="date" name="date" [(ngModel)]="myproduct.date" required/>
+    </div>
+    <div>
+      Weight:
+      <input type="number" name="weight" [(ngModel)]="myproduct.weight" required/>
+    </div>
+    <div>
+      <button (click)="addProductToMyList()" type="submit" [disabled]="myform.invalid">Add</button>
+    </div>
+  </form>
+</div>
