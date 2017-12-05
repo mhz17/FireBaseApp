@@ -13,11 +13,11 @@ import { Product, MyProduct } from './models/product.model';
 import { AngularFireAction } from 'angularfire2/database/interfaces';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class AppComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
 
   showUser: boolean;
@@ -46,10 +46,6 @@ export class AppComponent implements OnInit {
     } else {
       this.showUser = false;
     }
-  }
-
-  showBanner(): boolean {
-    return (this.route.url !== '/login');
   }
 
   loginWithGoogle() {

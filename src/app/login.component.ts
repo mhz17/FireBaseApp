@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -8,10 +9,34 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-    constructor(private route: Router) { }
+    username: any;
+    userid: string;
+
+    constructor(private route: Router,
+        private auth: AuthService) { }
 
     ngOnInit() {
-        console.log('i am here');
+        this.auth.getAuthState().subscribe(
+            (user) => this.username = user);
+          if (this.username != null) {
+            this.route.navigate(['home']);
+          } else {
+
+          }
     }
+
+    loginWithGoogle() {
+        this.auth.loginWithGoogle().then((result) => {
+          if (result) {
+            this.route.navigate(['home']);
+            // this.username = result.user['displayName'];
+            // this.userid = result.user['uid'];
+
+          } else {
+
+          }
+        });
+      }
+
 }
 

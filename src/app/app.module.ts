@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 // Components
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login.component';
+import { HomeComponent } from './home.component';
 
 // AngularFireBase
 import { AngularFireModule } from 'angularfire2';
@@ -25,6 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     LoginComponent
   ],
   imports: [
@@ -39,6 +41,6 @@ import { AppRoutingModule } from './app-routing.module';
     NgbModule.forRoot()
   ],
   providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider],
-  bootstrap: [LoginComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
