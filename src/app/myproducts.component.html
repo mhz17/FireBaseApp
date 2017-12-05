@@ -1,0 +1,28 @@
+<form #myform="ngForm">
+    <h3>My products</h3>
+    <ul>
+        <li class="text" *ngFor="let myitem of myitems | async">
+            {{myitem.name}} {{myitem.weight}} - {{myitem.date}}
+        </li>
+    </ul>
+    <h4>Add New Product to my list:</h4>
+    <div>
+        Product:
+        <select [(ngModel)]="myproduct.name" name="productname" required>
+            <option *ngFor="let prod of items | async" [ngValue]="prod">
+                {{prod.name}}
+            </option>
+        </select>
+    </div>
+    <div>
+        Date:
+        <input type="date" name="date" [(ngModel)]="myproduct.date" required/>
+    </div>
+    <div>
+        Weight:
+        <input type="number" name="weight" [(ngModel)]="myproduct.weight" required/>
+    </div>
+    <div>
+        <button (click)="addProductToMyList()" type="submit" [disabled]="myform.invalid">Add</button>
+    </div>
+</form>

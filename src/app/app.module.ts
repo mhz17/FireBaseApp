@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login.component';
 import { HomeComponent } from './home.component';
+import { MyProductsComponent } from './myproducts.component';
 
 // AngularFireBase
 import { AngularFireModule } from 'angularfire2';
@@ -22,12 +23,12 @@ import { environment } from '../environments/environment';
 import { AuthService } from '../shared/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    MyProductsComponent
   ],
   imports: [
     BrowserModule,
