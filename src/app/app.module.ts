@@ -20,9 +20,9 @@ import { AngularFireAuthModule, AngularFireAuthProvider, AngularFireAuth } from 
 
 // Shared
 import { environment } from '../environments/environment';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from './shared/auth.service';
 import { AppRoutingModule } from './app-routing.module';
-
+import { ProductService } from './shared/product.service';
 @NgModule({
   declarations: [
     AppComponent,

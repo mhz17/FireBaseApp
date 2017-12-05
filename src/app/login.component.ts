@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from './shared/auth.service';
 
 @Component({
     selector: 'app-login',
