@@ -23,11 +23,10 @@ export class AppComponent implements OnInit {
   username: string;
   user = null;
   items: Observable<any>;
-  prods: AngularFireList<any>;
-  products: Array<any> = [];
-  showValidation: boolean;
+  myitems: Observable<any>;
   product: Product;
   itemsRef: AngularFireList<any>;
+  userid: string;
 
   constructor(
     private auth: AuthService,
@@ -51,10 +50,9 @@ export class AppComponent implements OnInit {
 
         this.showUser = true;
         this.username = result.user['displayName'];
-        const itemsList = this.db.list<any>('/product');
-        this.items = itemsList.snapshotChanges().map(changes => {
-          return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-        });
+        this.userid = result.user['uid'];
+        this.loadAllProducts();
+        this.loadMyProducts();
 
       } else {
         this.showUser = false;
@@ -62,6 +60,21 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  loadAllProducts() {
+    const itemsList = this.db.list<any>('/product');
+    this.items = itemsList.snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+  }
+
+  loadMyProducts() {
+    const itemsList = this.db.list<any>('/userproducts/' + this.userid);
+    this.myitems = itemsList.snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+  }
+
 
   logOut() {
     this.auth.logOut();

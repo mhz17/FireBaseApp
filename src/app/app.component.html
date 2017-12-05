@@ -53,8 +53,15 @@
 
     <button (click)="addProduct()" type="submit" [disabled]="form.invalid">Add</button>
 
-    <h3>Add Products to my records</h3>
-    
+    <h3>My products</h3>
+    <ul>
+        <li class="text" *ngFor="let myitem of myitems | async">
+          {{myitem.name}} {{myitem.date}}
+          <!-- <button (click)="deleteProduct(item.key)" type="submit">Delete Product</button>
+          <button (click)="editProduct(item)" type="submit">Edit Product</button>
+          <button (click)="saveProduct(item)" type="submit" [disabled]="form.invalid">Save Product</button> -->
+        </li>
+      </ul>
   </div>
 
 </form>
