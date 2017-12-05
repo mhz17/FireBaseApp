@@ -5,3 +5,15 @@
 .rowheader .col{
     padding: 10px;
 }
+
+.title{
+    text-align: center;
+}
+
+.container{
+    margin-top: 15px;
+}
+
+.row{
+    margin-top: 5px;
+}

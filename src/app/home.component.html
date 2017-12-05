@@ -1,8 +1,17 @@
 <div *ngIf="showUser">
 
-    <form #form="ngForm">
+    <form #form="ngForm" class="products">
 
-        <h3>Products in the database</h3>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <input class="form-control" type="text" placeholder="Search">
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </div>
+            </div>
+        </div>
 
         <div class="container">
             <div class="row rowheader">
@@ -20,41 +29,74 @@
                 <div class="col ml-auto">{{item.carbs}}</div>
                 <div class="col ml-auto">{{item.proteins}}</div>
                 <div class="col ml-auto">
-                    <button (click)="deleteProduct(item.key)" class="btn btn-success" type="submit">Delete Product</button>
+                   
+                    <button (click)="deleteProduct(item.key)" class="btn btn-danger" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
                 </div>
                 <div class="col ml-auto">
                     <button (click)="editProduct(item)" class="btn btn-success" type="submit">Edit Product</button>
                 </div>
                 <div class="col ml-auto">
-                    <button (click)="saveProduct(item)" class="btn btn-success" type="submit" [disabled]="form.invalid">Save Product</button>
+                    <button (click)="updateProduct(item)" class="btn btn-success" type="submit" [disabled]="form.invalid">Save Product</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-secondary" (click)="showDiv()" *ngIf="!visibility">Add</button>
                 </div>
             </div>
         </div>
 
-        <div>
-            <label for="name">Name:</label>
-            <input #name="ngModel" required type="text" name="name" [(ngModel)]="product.name" id="name">
+        <div class="container" *ngIf="visibility">
+            <div class="row justify-content-start">
+                <h4>Add New Product</h4>
+            </div>
+            <div class="row justify-content-start">
+                <div class="col">
+                    <label for="name">Name:</label>
+                </div>
+                <div class="col">
+                    <input #name="ngModel" required type="text" name="name" [(ngModel)]="product.name" id="name">
+                </div>
+            </div>
+            <div class="row justify-content-start" *ngIf="name.invalid && name.dirty">First name is required</div>
+            <div class="row justify-content-start">
+                <div class="col">
+                    <label for="fat">Fat:</label>
+                </div>
+                <div class="col">
+                    <input #fat="ngModel" required type="text" name="fat" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" [(ngModel)]="product.fat"
+                        id="fat">
+                </div>
+            </div>
+            <div class="row justify-content-start" *ngIf="fat.invalid && fat.dirty">Fat amount is required and has to be numeric value</div>
+            <div class="row justify-content-start">
+                <div class="col">
+                    <label for="carbs">Carbs:</label>
+                </div>
+                <div class="col">
+                    <input #carbs="ngModel" required type="text" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" name="carbs" [(ngModel)]="product.carbs"
+                        id="carbs">
+                </div>
+            </div>
+            <div class="row justify-content-start" *ngIf="carbs.invalid && carbs.dirty">Carbs amount is required and has to be numeric value</div>
+            <div class="row justify-content-start">
+                <div class="col">
+                    <label for="proteins">Proteins:</label>
+                </div>
+                <div class="col">
+                    <input #proteins="ngModel" required type="text" name="proteins" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" [(ngModel)]="product.proteins"
+                        id="proteins">
+                </div>
+            </div>
+            <div class="row justify-content-start" *ngIf="proteins.invalid && proteins.dirty">Proteins amount is required and has to be numeric value</div>
+            <div class="row justify-content-start">
+                <div class="col-md-1">
+                    <button (click)="saveProduct()" class="btn btn-secondary" type="submit" [disabled]="form.invalid">Save</button>
+                </div>
+                <div class="col-md-1">
+                    <button (click)="showDiv()" class="btn btn-secondary" type="submit">Cancel</button>
+                </div>
+            </div>
         </div>
-        <div *ngIf="name.invalid && name.dirty">First name is required</div>
-        <div>
-            <label for="fat">Fat:</label>
-            <input #fat="ngModel" required type="text" name="fat" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" [(ngModel)]="product.fat"
-                id="fat">
-        </div>
-        <div *ngIf="fat.invalid && fat.dirty">Fat amount is required and has to be numeric value</div>
-        <div>
-            <label for="carbs">Carbs:</label>
-            <input #carbs="ngModel" required type="text" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" name="carbs" [(ngModel)]="product.carbs"
-                id="carbs">
-        </div>
-        <div *ngIf="carbs.invalid && carbs.dirty">Carbs amount is required and has to be numeric value</div>
-        <div>
-            <label for="proteins">Proteins:</label>
-            <input #proteins="ngModel" required type="text" name="proteins" pattern="^[1-9]\d{0,2}(\.\d{3})*(.\d+)?$" [(ngModel)]="product.proteins"
-                id="proteins">
-        </div>
-        <div *ngIf="proteins.invalid && proteins.dirty">Proteins amount is required and has to be numeric value</div>
-
-        <button (click)="addProduct()" type="submit" [disabled]="form.invalid">Add</button>
     </form>
 </div>

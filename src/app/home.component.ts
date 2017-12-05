@@ -19,7 +19,7 @@ import { AngularFireAction } from 'angularfire2/database/interfaces';
 })
 export class HomeComponent implements OnInit {
 
-
+    visibility: boolean;
     showUser: boolean;
     username: string;
     user = null;
@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
 
 
     ngOnInit() {
+        this.visibility = false;
         this.product = new Product(null, null, null, null);
         this.auth.getAuthState().subscribe(
             (user) => {
@@ -53,6 +54,10 @@ export class HomeComponent implements OnInit {
         );
     }
 
+    showDiv() {
+        this.visibility = !this.visibility;
+    }
+
     redirect() {
         console.log(this.route);
         this.route.navigate(['login']);
@@ -65,7 +70,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    addProduct() {
+    saveProduct() {
         const userList = this.db.list('/product');
         userList.push(this.product);
         this.product = new Product(null, null, null, null);
@@ -85,7 +90,7 @@ export class HomeComponent implements OnInit {
         this.product = new Product(updateproduct.name, updateproduct.fat, updateproduct.proteins, updateproduct.carbs);
     }
 
-    saveProduct(updateproduct) {
+    updateProduct(updateproduct) {
         const itemsRef = this.db.list('product');
         itemsRef.set(updateproduct.key, {
             name: this.product.name,
