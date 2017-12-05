@@ -1,6 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
-import { AngularFireModule} from 'angularfire2';
+import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, AngularFireDatabaseModule, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
@@ -19,8 +19,6 @@ import { AngularFireAction } from 'angularfire2/database/interfaces';
 })
 export class AppComponent implements OnInit {
 
-
-  showUser: boolean;
   username: string;
   user = null;
   userid: string;
@@ -33,12 +31,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.auth.getAuthState().subscribe(
-      (user) => this.user = user);
-    if (this.user != null) {
-      this.showUser = true;
-    } else {
-      this.showUser = false;
-    }
+      (user) => {
+      this.user = user;
+        if (this.user != null) {
+          this.username = user['displayName'];
+        }
+      });
   }
 
   showBanner(): boolean {
