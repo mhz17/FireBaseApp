@@ -31,4 +31,10 @@ constructor(public afAuth: AngularFireAuth) {
   logOut() {
     this.afAuth.auth.signOut();
   }
+
+  isLoggedIn() {
+    console.log('current user: ' + this.currentUser);
+    return this.currentUser !== null;
+}
+
 }

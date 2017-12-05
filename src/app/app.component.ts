@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log('authenticate');
     this.auth.getAuthState().subscribe(
       (user) => {
       this.user = user;

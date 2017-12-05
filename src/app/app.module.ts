@@ -2,7 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RouterModule } from '@angular/router';
+import { RouterModule, CanActivate } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ import { environment } from '../environments/environment';
 import { AuthService } from './shared/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 import { ProductService } from './shared/product.service';
+import { CanAccessGuard } from './guards/canAccess.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +42,7 @@ import { ProductService } from './shared/product.service';
     HttpModule,
     NgbModule.forRoot()
   ],
-  providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider],
+  providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider, CanAccessGuard, ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

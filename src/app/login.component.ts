@@ -26,14 +26,14 @@ export class LoginComponent implements OnInit {
     }
 
     loginWithGoogle() {
-        this.auth.loginWithGoogle().then((result) => {
-          if (result) {
-            this.route.navigate(['home']);
-          } else {
+      this.auth.loginWithGoogle().then((result) => {
+        if (result) {
+          this.route.navigate(['home']);
+        } else {
 
-          }
-        });
-      }
+        }
+      });
+    }
 
 }
 

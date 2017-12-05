@@ -11,9 +11,6 @@ export class ProductService {
 
     // use to check whether route can be activated.
     // private key is populated when user logs in successfully and this is stored for the lifetime of the applicaiton
-    isLoggedIn() {
-        return this.privateKey.length > 0;
-    }
 
     registerUser(email: string, password: string, redirect: string, pubkey?: string): Promise<any> {
         // BridgeClient.createUser
@@ -24,6 +21,7 @@ export class ProductService {
         // BridgeClient.destroyUser
         return Promise.reject('Not Implemented');
     }
+
 
     // getPublicKeysForBridge(): Promise<Key[]> {
     //     // BridgeClient.getPublicKeys
