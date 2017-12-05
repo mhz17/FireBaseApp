@@ -29,9 +29,6 @@ export class LoginComponent implements OnInit {
         this.auth.loginWithGoogle().then((result) => {
           if (result) {
             this.route.navigate(['home']);
-            // this.username = result.user['displayName'];
-            // this.userid = result.user['uid'];
-
           } else {
 
           }
