@@ -49,7 +49,6 @@ export class AppComponent implements OnInit {
 
   logOut() {
     this.auth.logOut();
-    this.showUser = false;
     this.username = null;
     this.user = null;
     this.redirect();
