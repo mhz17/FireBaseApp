@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute, ɵROUTER_PROVIDERS } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Product, MyProduct } from './models/product.model';
 import { AngularFireAction } from 'angularfire2/database/interfaces';
 
@@ -19,7 +19,6 @@ import { AngularFireAction } from 'angularfire2/database/interfaces';
 })
 export class HomeComponent implements OnInit {
 
-    visibility: boolean;
     showUser: boolean;
     username: string;
     user = null;
@@ -36,14 +35,12 @@ export class HomeComponent implements OnInit {
 
 
     ngOnInit() {
-        this.visibility = false;
         this.product = new Product(null, null, null, null);
         this.auth.getAuthState().subscribe(
             (user) => {
             this.user = user;
             this.username = user['displayName'];
             this.userid = user['uid'];
-            console.log(this.user);
                 if (this.user != null) {
                     this.showUser = true;
                     this.loadAllProducts();
@@ -54,12 +51,7 @@ export class HomeComponent implements OnInit {
         );
     }
 
-    showDiv() {
-        this.visibility = !this.visibility;
-    }
-
     redirect() {
-        console.log(this.route);
         this.route.navigate(['login']);
     }
 
@@ -70,11 +62,6 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    saveProduct() {
-        const userList = this.db.list('/product');
-        userList.push(this.product);
-        this.product = new Product(null, null, null, null);
-    }
 
     deleteProduct(key) {
         this.itemsRef = this.db.list('/product', ref => ref.orderByKey().equalTo(key));
@@ -86,19 +73,21 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    editProduct(updateproduct) {
-        this.product = new Product(updateproduct.name, updateproduct.fat, updateproduct.proteins, updateproduct.carbs);
+    // editProduct(updateproduct) {
+    //     this.product = new Product(updateproduct.name, updateproduct.fat, updateproduct.proteins, updateproduct.carbs);
+    // }
+
+    editProduct(key) {
+        const navigationExtras: NavigationExtras = {
+            queryParams: {
+                'key': key
+            }
+        };
+        this.route.navigate(['productdetails'], navigationExtras);
     }
 
-    updateProduct(updateproduct) {
-        const itemsRef = this.db.list('product');
-        itemsRef.set(updateproduct.key, {
-            name: this.product.name,
-            fat: this.product.fat,
-            proteins: this.product.proteins,
-            carbs: this.product.carbs
-        });
-        this.product = new Product(null, null, null, null);
+    addProduct() {
+        this.route.navigate(['productdetails']);
     }
 
 }

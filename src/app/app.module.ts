@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login.component';
 import { HomeComponent } from './home.component';
 import { MyProductsComponent } from './myproducts.component';
+import { ProductDetailsComponent } from './productdetails.component';
 
 // AngularFireBase
 import { AngularFireModule } from 'angularfire2';
@@ -29,7 +30,8 @@ import { CanAccessGuard } from './guards/canAccess.guard';
     AppComponent,
     HomeComponent,
     LoginComponent,
-    MyProductsComponent
+    MyProductsComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,

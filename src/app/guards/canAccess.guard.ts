@@ -9,7 +9,6 @@ export class CanAccessGuard implements CanActivate {
     constructor(private authservice: AuthService, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        console.log('check guard: ' + state.url);
         return this.checkLoggedIn(state.url);
     }
 
