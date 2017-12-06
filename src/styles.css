@@ -1,3 +1,19 @@
 .btn{
     cursor: pointer;
 }
+
+.rowheader .col{
+    font-weight: bolder;
+}
+
+.rowheader .col{
+    padding: 10px;
+}
+
+.container{
+    margin-top: 10px;
+}
+
+.row{
+    margin-top: 5px;
+}

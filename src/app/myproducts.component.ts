@@ -23,6 +23,7 @@ export class MyProductsComponent implements OnInit {
     myproduct: MyProduct;
     user: any;
     userid: any;
+    items: Observable<any>;
     myitems: Observable<any>;
 
     constructor(
@@ -38,15 +39,21 @@ export class MyProductsComponent implements OnInit {
                 (user) => {this.user = user;
                     if (this.user != null) {
                         this.userid = user['uid'];
+                        this.loadAllProducts();
                         this.loadMyProducts();
                     }
                 }
             );
         }
 
+        loadAllProducts() {
+            this.items = this.db.list<any>('/product').snapshotChanges().map(changes => {
+                return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+            });
+        }
+
         loadMyProducts() {
-            const itemsList = this.db.list<any>('/userproducts/' + this.userid);
-            this.myitems = itemsList.snapshotChanges().map(changes => {
+            this.myitems = this.db.list<any>('/userproducts/' + this.userid).snapshotChanges().map(changes => {
                 return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
             });
         }

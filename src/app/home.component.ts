@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit {
     username: string;
     user = null;
     items: Observable<any>;
-    myitems: Observable<any>;
     product: Product;
     itemsRef: AngularFireList<any>;
     userid: string;
@@ -56,8 +55,7 @@ export class HomeComponent implements OnInit {
     }
 
     loadAllProducts() {
-        const itemsList = this.db.list<any>('/product');
-        this.items = itemsList.snapshotChanges().map(changes => {
+        this.items = this.db.list<any>('/product').snapshotChanges().map(changes => {
             return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
         });
     }
@@ -72,10 +70,6 @@ export class HomeComponent implements OnInit {
                 });
             });
     }
-
-    // editProduct(updateproduct) {
-    //     this.product = new Product(updateproduct.name, updateproduct.fat, updateproduct.proteins, updateproduct.carbs);
-    // }
 
     editProduct(key) {
         const navigationExtras: NavigationExtras = {
