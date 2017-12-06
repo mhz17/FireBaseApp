@@ -17,13 +17,15 @@
     </div>
 
     <div class="container">
+
         <div class="row">
-            <h3>Add New Product to my list</h3>
+            <h4>Add New Product to my list</h4>
         </div>
+
         <div class="row">
             <div class="col-md-1">Product:</div>
             <div class="col-md-2">
-                <select [(ngModel)]="myproduct.name" name="productname" required>
+                <select class="dropdown" [(ngModel)]="myproduct.name" name="productname" required>
                     <option *ngFor="let prod of items | async" [ngValue]="prod">
                         {{prod.name}}
                     </option>
@@ -44,10 +46,11 @@
                 <input type="number" name="weight" [(ngModel)]="myproduct.weight" required/>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-1">
-                <button (click)="addProductToMyList()" type="submit" [disabled]="myform.invalid">Add</button>
-            </div>
+                <button (click)="addProductToMyList()" class="btn btn-secondary" type="submit" [disabled]="myform.invalid">Add</button>
+        </div>
 
         </div>
 

@@ -72,12 +72,12 @@ export class HomeComponent implements OnInit {
     }
 
     editProduct(key) {
-        const navigationExtras: NavigationExtras = {
-            queryParams: {
-                'key': key
-            }
-        };
-        this.route.navigate(['productdetails'], navigationExtras);
+        // const navigationExtras: NavigationExtras = {
+        //     queryParams: {
+        //         'key': key
+        //     }
+        // };
+        this.route.navigate(['productdetails', key]);
     }
 
     addProduct() {

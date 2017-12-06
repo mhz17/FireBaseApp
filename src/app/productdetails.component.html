@@ -44,10 +44,10 @@
                 <div class="row justify-content-start" *ngIf="proteins.invalid && proteins.dirty">Proteins amount is required and has to be numeric value</div>
                 <div class="row justify-content-start">
                     <div class="col-md-1">
-                        <button (click)="saveProduct()" class="btn btn-secondary" type="submit" [disabled]="form.invalid">Save</button>
+                        <button class="btn btn-secondary" (click)="saveProduct()" type="submit" [disabled]="form.invalid">Save</button>
                     </div>
                     <div class="col-md-1">
-                        <button class="btn btn-secondary" (click)="cancel()" type="submit">Cancel</button>
+                        <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
                     </div>
                 </div>
             </div>

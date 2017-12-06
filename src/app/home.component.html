@@ -1,47 +1,45 @@
 <div *ngIf="showUser">
 
-    <form #form="ngForm">
-
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <input class="form-control" type="text" placeholder="Search">
-                </div>
-                <div class="col">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <input class="form-control" type="text" placeholder="Search">
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-success" type="submit">Search</button>
             </div>
         </div>
+    </div>
 
-        <div class="container">
-            <div class="row rowheader">
-                <div class="col">Name</div>
-                <div class="col">Fat</div>
-                <div class="col">Carbs</div>
-                <div class="col">Proteins</div>
-                <div class="col"></div>
-                <div class="col"></div>
-                <div class="col"></div>
+    <div class="container">
+        <div class="row rowheader">
+            <div class="col">Name</div>
+            <div class="col">Fat</div>
+            <div class="col">Carbs</div>
+            <div class="col">Proteins</div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+        <div class="row" *ngFor="let item of items | async">
+            <div class="col ml-auto">{{item.name}}</div>
+            <div class="col ml-auto">{{item.fat}}</div>
+            <div class="col ml-auto">{{item.carbs}}</div>
+            <div class="col ml-auto">{{item.proteins}}</div>
+            <div class="col ml-auto">
+
+                <button (click)="deleteProduct(item.key)" class="btn btn-danger" type="submit">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
             </div>
-            <div class="row" *ngFor="let item of items | async">
-                <div class="col ml-auto">{{item.name}}</div>
-                <div class="col ml-auto">{{item.fat}}</div>
-                <div class="col ml-auto">{{item.carbs}}</div>
-                <div class="col ml-auto">{{item.proteins}}</div>
-                <div class="col ml-auto">
-                   
-                    <button (click)="deleteProduct(item.key)" class="btn btn-danger" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                </div>
-                <div class="col ml-auto">
-                    <button (click)="editProduct(item.key)" class="btn btn-success" type="submit">Edit Product</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button type="submit" class="btn btn-secondary" (click)="addProduct()">Add</button>
-                </div>
+            <div class="col ml-auto">
+                <button (click)="editProduct(item.key)" class="btn btn-success">Edit Product</button>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-secondary" (click)="addProduct()">Add</button>
+            </div>
+        </div>
+    </div>
 
-    </form>
 </div>
