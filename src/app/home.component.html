@@ -27,11 +27,11 @@
             <div class="col ml-auto">{{item.carbs}}</div>
             <div class="col ml-auto">{{item.proteins}}</div>
             <div class="col ml-auto">
-
+                
                 <button (click)="deleteProduct(item.key)" class="btn btn-danger">
                     <i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                    <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-                </div>
+
+            </div>
             <div class="col ml-auto">
                 <button (click)="editProduct(item.key)" class="btn btn-success">Edit Product</button>
             </div>

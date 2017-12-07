@@ -16,44 +16,52 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" *ngIf="!addProduct">
+        <div class="row">
+            <button (click)="showAddProduct()" class="btn btn-secondary">Add To List</button>
+        </div>
+    </div>
+
+    <div class="container" *ngIf="addProduct">
 
         <div class="row">
-            <h4>Add New Product to my list</h4>
+            <h6>Add New Product to my list</h6>
         </div>
 
         <div class="row">
             <div class="col-md-1">Product:</div>
             <div class="col-md-2">
-                <select class="dropdown" [(ngModel)]="myproduct.name" name="productname" required>
-                    <option *ngFor="let prod of items | async" [ngValue]="prod">
-                        {{prod.name}}
-                    </option>
-                </select>
+
+                    <p-dropdown [options]="listOfProducts" [(ngModel)]="myproduct.name" [style]="{'width':'192px'}" name="name">
+                            <ng-template let-product pTemplate="product">
+                                <div class="ui-helper-clearfix">
+                                   {{product.name}}
+                                </div>
+                            </ng-template>
+                     </p-dropdown>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-1">Date:</div>
             <div class="col-md-2">
-                <input type="date" name="date" [(ngModel)]="myproduct.date" required/>
+                    <p-calendar [(ngModel)]="myproduct.date" name="date" showButtonBar="true" aria-required="true"></p-calendar>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-1">Weight:</div>
             <div class="col-md-2">
-                <input type="number" name="weight" [(ngModel)]="myproduct.weight" required/>
+                    <input type="text" pInputText name="weight" [style]="{'width':'192px'}" [(ngModel)]="myproduct.weight" required>   
             </div>
         </div>
-
         <div class="row">
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <button (click)="addProductToMyList()" class="btn btn-secondary" type="submit" [disabled]="myform.invalid">Add</button>
+                <button (click)="cancel()" class="btn btn-secondary">Cancel</button>            
+            </div>
         </div>
-
-        </div>
-
+         
     </div>
 
 </form>

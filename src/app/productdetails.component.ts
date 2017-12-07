@@ -27,28 +27,29 @@ export class ProductDetailsComponent implements OnInit {
 
     constructor(
         private auth: AuthService,
-        public db: AngularFireDatabase,
+        private db: AngularFireDatabase,
+        private parameters: ActivatedRoute,
         private route: Router) {
         }
 
         ngOnInit() {
             this.key = null;
             this.product = new Product(null, null, null, null);
-            // this.auth.getAuthState().subscribe(
-            //     (user) => {this.user = user;
-            //         if (this.user != null) {
+            this.auth.getAuthState().subscribe(
+                (user) => {this.user = user;
+                    if (this.user != null) {
 
-            //             this.parameter.queryParams.subscribe(params => {
-            //                 this.key = params['key'];
-            //                 console.log(this.key);
-            //                 if (this.key === null) {
-            //                     console.log(this.key);
-            //                     this.loadProduct();
-            //                 }
-            //             });
-            //         }
-            //     }
-            // );
+                        this.parameters.queryParams.subscribe(params => {
+                            this.key = params['key'];
+                            console.log(this.key);
+                            if (this.key === null) {
+                                console.log(this.key);
+                                this.loadProduct();
+                            }
+                        });
+                    }
+                }
+            );
         }
 
         saveProduct() {
@@ -71,20 +72,18 @@ export class ProductDetailsComponent implements OnInit {
         }
 
         cancel() {
-            console.log('testing');
             this.route.navigate(['home']);
         }
 
-        // loadProduct() {
-        //     this.items = this.db.list('/product', ref => ref.orderByKey().equalTo(this.key));
-        //     console.log('items: ' + this.items);
-        //     this.items.snapshotChanges(['child_added'])
-        //         .subscribe(actions => {
-        //             actions.forEach(action => {
-        //                 console.log(action);
-        //             });
-        //         });
-        // }
+        loadProduct() {
+            this.items = this.db.list('/product', ref => ref.orderByKey().equalTo(this.key));
+            this.items.snapshotChanges(['child_added'])
+                .subscribe(actions => {
+                    actions.forEach(action => {
+                        console.log(action);
+                    });
+                });
+        }
 }
 
 
