@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
 
 // Components
 import { AppComponent } from './app.component';
@@ -47,9 +48,10 @@ import { CanAccessGuard } from './guards/canAccess.guard';
     AppRoutingModule,
     FormsModule,
     HttpModule,
+    ConfirmDialogModule,
     NgbModule.forRoot()
   ],
-  providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider, CanAccessGuard, ProductService],
+  providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider, CanAccessGuard, ProductService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

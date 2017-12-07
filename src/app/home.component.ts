@@ -12,6 +12,7 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Product, MyProduct } from './models/product.model';
 import { AngularFireAction } from 'angularfire2/database/interfaces';
 import { ToastOptions, ToastsManager } from 'ng2-toastr';
+import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
 
 @Component({
     selector: 'app-home',
@@ -33,7 +34,8 @@ export class HomeComponent implements OnInit {
         public db: AngularFireDatabase,
         private route: Router,
         public toastr: ToastsManager,
-        vcr: ViewContainerRef) {
+        public vcr: ViewContainerRef,
+        public confirmationService: ConfirmationService) {
             this.toastr.setRootViewContainerRef(vcr);
         }
 
@@ -68,7 +70,13 @@ export class HomeComponent implements OnInit {
 
 
     deleteProduct(key) {
-        this.toastr.custom('<span style="color: red">Message in red.</span>', null, {enableHTML: true});
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to perform this action?',
+            accept: () => {
+                this.toastr.custom('<span style="color: red">Message in red.</span>', null, {enableHTML: true});
+            }
+        });
+
         // this.itemsRef = this.db.list('/product', ref => ref.orderByKey().equalTo(key));
         // this.itemsRef.snapshotChanges(['child_added'])
         //     .subscribe(actions => {
