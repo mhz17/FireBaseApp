@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, NgModule, ViewContainerRef } from '@angular/core';
 import { AuthService } from './shared/auth.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, AngularFireDatabaseModule, AngularFireList, AngularFireObject } from 'angularfire2/database';
@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { Product, MyProduct } from './models/product.model';
 import { AngularFireAction } from 'angularfire2/database/interfaces';
+import { ToastOptions, ToastsManager } from 'ng2-toastr';
 
 @Component({
     selector: 'app-home',
@@ -30,10 +31,15 @@ export class HomeComponent implements OnInit {
     constructor(
         private auth: AuthService,
         public db: AngularFireDatabase,
-        private route: Router) { }
+        private route: Router,
+        public toastr: ToastsManager,
+        vcr: ViewContainerRef) {
+            this.toastr.setRootViewContainerRef(vcr);
+        }
 
 
     ngOnInit() {
+        console.log('home page');
         this.product = new Product(null, null, null, null);
         this.auth.getAuthState().subscribe(
             (user) => {
@@ -62,21 +68,17 @@ export class HomeComponent implements OnInit {
 
 
     deleteProduct(key) {
-        this.itemsRef = this.db.list('/product', ref => ref.orderByKey().equalTo(key));
-        this.itemsRef.snapshotChanges(['child_added'])
-            .subscribe(actions => {
-                actions.forEach(action => {
-                    this.itemsRef.remove(action.key);
-                });
-            });
+        this.toastr.custom('<span style="color: red">Message in red.</span>', null, {enableHTML: true});
+        // this.itemsRef = this.db.list('/product', ref => ref.orderByKey().equalTo(key));
+        // this.itemsRef.snapshotChanges(['child_added'])
+        //     .subscribe(actions => {
+        //         actions.forEach(action => {
+        //             this.itemsRef.remove(action.key);
+        //         });
+        //     });
     }
 
     editProduct(key) {
-        // const navigationExtras: NavigationExtras = {
-        //     queryParams: {
-        //         'key': key
-        //     }
-        // };
         this.route.navigate(['productdetails', key]);
     }
 

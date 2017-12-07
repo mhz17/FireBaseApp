@@ -71,6 +71,7 @@ export class ProductDetailsComponent implements OnInit {
         }
 
         cancel() {
+            console.log('testing');
             this.route.navigate(['home']);
         }
 

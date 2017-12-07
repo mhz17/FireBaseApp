@@ -6,6 +6,8 @@ import { RouterModule, CanActivate } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Components
 import { AppComponent } from './app.component';
@@ -25,6 +27,7 @@ import { AuthService } from './shared/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 import { ProductService } from './shared/product.service';
 import { CanAccessGuard } from './guards/canAccess.guard';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +38,8 @@ import { CanAccessGuard } from './guards/canAccess.guard';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ToastModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase, 'firebaseapp'),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
