@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="container" *ngIf="addProduct">
+    <div class="container addproducts" *ngIf="addProduct">
 
         <div class="row">
             <h6>Add New Product to my list</h6>
@@ -31,21 +31,14 @@
         <div class="row">
             <div class="col-md-1">Product:</div>
             <div class="col-md-2">
-
-                    <p-dropdown [options]="listOfProducts" [(ngModel)]="myproduct.name" [style]="{'width':'192px'}" name="name">
-                            <ng-template let-product pTemplate="product">
-                                <div class="ui-helper-clearfix">
-                                   {{product.name}}
-                                </div>
-                            </ng-template>
-                     </p-dropdown>
+                <p-dropdown [options]="listOfProducts" [(ngModel)]="selectedProduct" optionLabel="name" name="selectedProduct" [style]="{'width':'192px'}"></p-dropdown>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-1">Date:</div>
             <div class="col-md-2">
-                    <p-calendar [(ngModel)]="myproduct.date" name="date" showButtonBar="true" aria-required="true"></p-calendar>
+                    <p-calendar [(ngModel)]="myproduct.date" dateFormat="dd/mm/yy" name="date" showButtonBar="true" aria-required="true"></p-calendar>
             </div>
         </div>
 

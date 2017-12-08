@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, CanActivate } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -54,7 +55,8 @@ import { CanAccessGuard } from './guards/canAccess.guard';
     ConfirmDialogModule,
     NgbModule.forRoot()
   ],
-  providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider, CanAccessGuard, ProductService, ConfirmationService],
+  providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider, CanAccessGuard, ProductService, 
+    ConfirmationService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

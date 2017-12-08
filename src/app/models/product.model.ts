@@ -9,7 +9,7 @@ export class Product {
 
 export class MyProduct {
     constructor(
-        public date: Date,
+        public date: string,
         public name: string,
         public fat: number,
         public proteins: number,

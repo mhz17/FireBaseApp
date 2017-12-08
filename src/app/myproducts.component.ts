@@ -1,5 +1,6 @@
-import { Component, OnInit, NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule, FormGroup} from '@angular/forms';
+import { Component, OnInit, NgModule, Pipe, PipeTransform } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AuthService } from './shared/auth.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase, AngularFireDatabaseModule, AngularFireList, AngularFireObject } from 'angularfire2/database';
@@ -28,62 +29,66 @@ export class MyProductsComponent implements OnInit {
     myitems: Observable<any>;
     addProduct: boolean;
     listOfProducts: any;
-    selectedproduct: any;
+    selectedProduct: any;
 
     constructor(
         private auth: AuthService,
         public db: AngularFireDatabase,
-        private route: Router) { }
+        private route: Router,
+        private datePipe: DatePipe) { }
 
 
-        ngOnInit() {
-            this.addProduct = false;
-            this.product = new Product(null, null, null, null);
-            this.myproduct = new MyProduct(null, null, null, null, null, null, null);
-            this.auth.getAuthState().subscribe(
-                (user) => {this.user = user;
-                    if (this.user != null) {
-                        this.userid = user['uid'];
-                        this.loadMyProducts();
-                        this.loadAllProducts().subscribe(i => this.listOfProducts = i);
+    ngOnInit() {
+        this.selectedProduct = null;
+        this.addProduct = false;
+        this.product = new Product(null, null, null, null);
+        this.myproduct = new MyProduct(null, null, null, null, null, null, null);
+        this.auth.getAuthState().subscribe(
+            (user) => {
+            this.user = user;
+                if (this.user != null) {
+                    this.userid = user['uid'];
+                    this.loadMyProducts();
+                    this.loadAllProducts().subscribe(i => this.listOfProducts = i);
 
-                    }
                 }
-            );
-        }
+            }
+        );
+    }
 
-        loadAllProducts(): Observable<any> {
-           return  this.items = this.db.list<any>('/product').snapshotChanges().map(changes => {
-                return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-            });
-        }
+    loadAllProducts(): Observable<any> {
+        return this.items = this.db.list<any>('/product').snapshotChanges().map(changes => {
+            return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+        });
+    }
 
-        loadMyProducts() {
-            this.myitems = this.db.list<any>('/userproducts/' + this.userid).snapshotChanges().map(changes => {
-                return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-            });
-        }
+    loadMyProducts() {
+        this.myitems = this.db.list<any>('/userproducts/' + this.userid).snapshotChanges().map(changes => {
+            return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+        });
+    }
 
-        addProductToMyList() {
-                    const prod = this.myproduct.name;
-                    this.myproduct.key = prod['key'];
-                    this.myproduct.fat = prod['fat'];
-                    this.myproduct.proteins = prod['proteins'];
-                    this.myproduct.carbs = prod['carbs'];
-                    this.myproduct.name = prod['name'];
-                    const itemsRef = this.db.list('userproducts/' + this.userid);
-                    itemsRef.push(this.myproduct);
-                    this.myproduct = new MyProduct(null, null, null, null, null, null, null);
-                    this.addProduct = false;
-                }
+    addProductToMyList() {
+        this.myproduct.key = this.selectedProduct.key;
+        this.myproduct.fat = this.selectedProduct.fat;
+        this.myproduct.proteins = this.selectedProduct.proteins;
+        this.myproduct.carbs = this.selectedProduct.carbs;
+        this.myproduct.name = this.selectedProduct.name;
+        this.myproduct.date = this.datePipe.transform(this.myproduct.date, 'dd/MM/yy');
+        console.log(this.myproduct);
+        // const itemsRef = this.db.list('userproducts/' + this.userid);
+        // itemsRef.push(this.myproduct);
+        // this.myproduct = new MyProduct(null, null, null, null, null, null, null);
+        // this.addProduct = false;
+    }
 
-        cancel() {
-            this.addProduct = false;
-        }
+    cancel() {
+        this.addProduct = false;
+    }
 
-        showAddProduct() {
-            this.addProduct = true;
-        }
+    showAddProduct() {
+        this.addProduct = true;
+    }
 
 }
 
