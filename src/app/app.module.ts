@@ -55,7 +55,7 @@ import { CanAccessGuard } from './guards/canAccess.guard';
     ConfirmDialogModule,
     NgbModule.forRoot()
   ],
-  providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider, CanAccessGuard, ProductService, 
+  providers: [AuthService, AngularFireAuthProvider, AngularFireDatabaseProvider, CanAccessGuard, ProductService,
     ConfirmationService, DatePipe],
   bootstrap: [AppComponent]
 })
