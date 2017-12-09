@@ -13,6 +13,7 @@ import { Router, ActivatedRoute, ɵROUTER_PROVIDERS } from '@angular/router';
 import { Product, MyProduct } from './models/product.model';
 import { AngularFireAction } from 'angularfire2/database/interfaces';
 import { DropdownModule, SelectItem, Calendar, CalendarModule, InputText, InputTextModule } from 'primeng/primeng';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-myproducts',
@@ -69,17 +70,17 @@ export class MyProductsComponent implements OnInit {
     }
 
     addProductToMyList() {
+        const dt = moment(this.myproduct.date).format('DD/MM/YYYY');
         this.myproduct.key = this.selectedProduct.key;
         this.myproduct.fat = this.selectedProduct.fat;
         this.myproduct.proteins = this.selectedProduct.proteins;
         this.myproduct.carbs = this.selectedProduct.carbs;
         this.myproduct.name = this.selectedProduct.name;
-        this.myproduct.date = this.datePipe.transform(this.myproduct.date, 'dd/MM/yy');
-        console.log(this.myproduct);
-        // const itemsRef = this.db.list('userproducts/' + this.userid);
-        // itemsRef.push(this.myproduct);
-        // this.myproduct = new MyProduct(null, null, null, null, null, null, null);
-        // this.addProduct = false;
+        this.myproduct.date = dt;
+        const itemsRef = this.db.list('userproducts/' + this.userid);
+        itemsRef.push(this.myproduct);
+        this.myproduct = new MyProduct(null, null, null, null, null, null, null);
+        this.addProduct = false;
     }
 
     cancel() {
