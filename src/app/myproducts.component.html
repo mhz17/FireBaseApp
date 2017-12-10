@@ -13,6 +13,11 @@
             <div class="col ml-auto">{{myitem.name}}</div>
             <div class="col ml-auto">{{myitem.weight}}</div>
             <div class="col ml-auto">{{myitem.date}}</div>
+            <div class="col ml-auto">
+                <button (click)="deleteMyProduct(myitem)" class="btn btn-danger">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+
+            </div>
         </div>
     </div>
 

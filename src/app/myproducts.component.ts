@@ -91,6 +91,14 @@ export class MyProductsComponent implements OnInit {
         this.addProduct = true;
     }
 
+    deleteMyProduct(item) {
+       let a: Observable<any>;
+       let b: any;
+       a = this.db.list('/userproducts/' + this.userid).snapshotChanges();
+       a.subscribe(i => b = i);
+       console.log(a);
+    }
+
 }
 
 
