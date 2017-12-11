@@ -4,7 +4,7 @@
 
 .rowheader .col{
     font-weight: bolder;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .container{
@@ -58,4 +58,8 @@
 
 .col-md-2.colbutton{
     max-width: 110px;
+}
+
+.row.buttons{
+    margin-top: 15px;
 }
