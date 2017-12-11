@@ -4,10 +4,7 @@
 
 .rowheader .col{
     font-weight: bolder;
-}
-
-.rowheader .col{
-    padding: 10px;
+    text-align: center;
 }
 
 .container{
@@ -16,4 +13,49 @@
 
 .row{
     margin-top: 5px;
+}
+
+.btn-success{
+    background-color: #34A270;
+    border-color: #34A270;
+}
+
+.btn-outline-success{
+    border-color: #34A270;
+    color: #34A270;
+}
+
+.btn-outline-success:hover{
+    background-color: #34A270;
+}
+
+.btn-success:hover{
+    background-color: rgb(36, 116, 78);
+    border-color: rgb(36, 116, 78);
+}
+
+.btn-danger{
+    background-color: #E0674B;
+    border-color:#E0674B;
+}
+
+.btn-danger:hover{
+    background-color: rgb(177, 82, 60);
+    border-color:rgb(177, 82, 60);
+}
+
+.btn-warning{
+    border-color: #F4A52D;
+    background-color: #F4A52D;
+    color: white;
+}
+
+.btn-warning:hover{
+    border-color: rgb(218, 146, 40);
+    background-color: rgb(218, 146, 40);
+    color: white;
+}
+
+.col-md-2.colbutton{
+    max-width: 110px;
 }

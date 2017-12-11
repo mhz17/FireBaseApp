@@ -13,26 +13,26 @@
 
     <div class="container">
         <div class="row rowheader">
-            <div class="col">Name</div>
-            <div class="col">Fat</div>
-            <div class="col">Carbs</div>
-            <div class="col">Proteins</div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
+            <div class="col col-md-2">Name</div>
+            <div class="col col-md-2">Fat</div>
+            <div class="col col-md-2">Carbs</div>
+            <div class="col col-md-2">Proteins</div>
+            <div class="col col-md-2"></div>
+            <div class="col col-md-2 colbutton"></div>
+            <div class="col col-md-2 colbutton"></div>
         </div>
         <div class="row" *ngFor="let item of items | async">
-            <div class="col ml-auto">{{item.name}}</div>
-            <div class="col ml-auto">{{item.fat}}</div>
-            <div class="col ml-auto">{{item.carbs}}</div>
-            <div class="col ml-auto">{{item.proteins}}</div>
-            <div class="col ml-auto">
+            <div class="col col-md-2">{{item.name}}</div>
+            <div class="col col-md-2">{{item.fat}}</div>
+            <div class="col col-md-2">{{item.carbs}}</div>
+            <div class="col col-md-2">{{item.proteins}}</div>
+            <div class="col col-md-2 colbutton">
                 
                 <button (click)="deleteProduct(item.key)" class="btn btn-danger">
                     <i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
 
             </div>
-            <div class="col ml-auto">
+            <div class="col col-md-2 colbutton">
                 <button (click)="editProduct(item.key)" class="btn btn-success">Edit Product</button>
             </div>
         </div>
