@@ -41,9 +41,9 @@ export class ProductDetailsComponent implements OnInit {
 
                         this.parameters.queryParams.subscribe(params => {
                             this.key = params['key'];
-                            console.log(this.key);
+                            // console.log(this.key);
                             if (this.key === null) {
-                                console.log(this.key);
+                                // console.log(this.key);
                                 this.loadProduct();
                             }
                         });
@@ -52,6 +52,8 @@ export class ProductDetailsComponent implements OnInit {
             );
         }
 
+
+        // Save Product to the db
         saveProduct() {
             console.log('key: ' + this.key);
             if (this.key === null) {
@@ -71,10 +73,12 @@ export class ProductDetailsComponent implements OnInit {
             }
         }
 
+        // Cancel Adding new product, navigate to the home page
         cancel() {
             this.route.navigate(['home']);
         }
 
+        // Load Product drop down list
         loadProduct() {
             this.items = this.db.list('/product', ref => ref.orderByKey().equalTo(this.key));
             this.items.snapshotChanges(['child_added'])

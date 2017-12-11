@@ -83,14 +83,17 @@ export class MyProductsComponent implements OnInit {
         this.addProduct = false;
     }
 
+    // Cancel adding new product (Hide Add product div)
     cancel() {
         this.addProduct = false;
     }
 
+     // Set Show Product flag
     showAddProduct() {
         this.addProduct = true;
     }
 
+    // TODO Delete Selected my product (Work in progress.....)
     deleteMyProduct(item) {
        let a: Observable<any>;
        let b: any;

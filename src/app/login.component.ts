@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
           }
     }
 
+    // Login with Google
     loginWithGoogle() {
       this.auth.loginWithGoogle().then((result) => {
         if (result) {

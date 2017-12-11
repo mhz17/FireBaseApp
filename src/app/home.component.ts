@@ -37,6 +37,8 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         console.log('home page');
         this.product = new Product(null, null, null, null);
+
+        // Check if user is authorised
         this.auth.getAuthState().subscribe(
             (user) => {
             this.user = user;
@@ -44,6 +46,7 @@ export class HomeComponent implements OnInit {
             this.userid = user['uid'];
                 if (this.user != null) {
                     this.showUser = true;
+                    // If user is authorised load all products
                     this.loadAllProducts();
                 } else {
                     this.showUser = false;
@@ -52,17 +55,14 @@ export class HomeComponent implements OnInit {
         );
     }
 
-    redirect() {
-        this.route.navigate(['login']);
-    }
-
+    // Load all products
     loadAllProducts() {
         this.items = this.db.list<any>('/product').snapshotChanges().map(changes => {
             return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
         });
     }
 
-
+    // Delete selected product (Look for a product using product key)
     deleteProduct(key) {
         this.itemsRef = this.db.list('/product', ref => ref.orderByKey().equalTo(key));
         this.itemsRef.snapshotChanges(['child_added'])
@@ -73,10 +73,12 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    // Edit Existing product (navigate to product details)
     editProduct(key) {
         this.route.navigate(['productdetails', key]);
     }
 
+    // Add New product (navigate to product details)
     addProduct() {
         this.route.navigate(['productdetails']);
     }

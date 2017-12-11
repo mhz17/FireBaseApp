@@ -39,14 +39,17 @@ export class AppComponent implements OnInit {
       });
   }
 
+  // Show Banner if not on login page
   showBanner(): boolean {
     return (this.route.url !== '/login');
   }
 
+  // Redirect to login page
   redirect() {
     this.route.navigate(['login']);
   }
 
+  // Log out button
   logOut() {
     this.auth.logOut();
     this.username = null;
