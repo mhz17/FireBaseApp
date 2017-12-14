@@ -50,11 +50,11 @@ export class ProductDetailsComponent implements OnInit {
 
         // Save Product to the db
         saveProduct() {
+
             if (this.key === undefined) {
                 const userList = this.db.list('/product');
                 userList.push(this.product);
                 this.product = new Product(null, null, null, null);
-                this.route.navigate(['home']);
             } else {
                 const itemsRef = this.db.list('product');
                 itemsRef.set(this.key, {
@@ -65,6 +65,8 @@ export class ProductDetailsComponent implements OnInit {
                 });
                 this.product = new Product(null, null, null, null);
             }
+
+            this.route.navigate(['home']);
         }
 
         // Cancel Adding new product, navigate to the home page
