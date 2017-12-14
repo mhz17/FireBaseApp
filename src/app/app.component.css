@@ -1,3 +1,8 @@
 .btn{
     cursor: pointer;
 }
+
+.username label, .username i{
+    margin-right: 5px;
+    color: gray;
+}

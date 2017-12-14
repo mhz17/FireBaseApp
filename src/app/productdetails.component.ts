@@ -22,7 +22,7 @@ export class ProductDetailsComponent implements OnInit {
     product: Product;
     user: any;
     sub: any;
-    key: null;
+    key: string;
     items: any;
 
     constructor(
@@ -55,8 +55,7 @@ export class ProductDetailsComponent implements OnInit {
 
         // Save Product to the db
         saveProduct() {
-            console.log('key: ' + this.key);
-            if (this.key === null) {
+            if (this.key === undefined) {
                 const userList = this.db.list('/product');
                 userList.push(this.product);
                 this.product = new Product(null, null, null, null);

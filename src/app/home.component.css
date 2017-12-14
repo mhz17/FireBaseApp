@@ -2,3 +2,6 @@
     text-align: center;
 }
 
+.searchcombo:focus{
+    border-color: #34A270;
+}

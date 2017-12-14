@@ -16,6 +16,9 @@ export class LoginComponent implements OnInit {
         private auth: AuthService) { }
 
     ngOnInit() {
+
+      // FirebaseUser currentUser = this.auth.getAuthState().;
+
         this.auth.getAuthState().subscribe(
             (user) => this.username = user);
           if (this.username != null) {

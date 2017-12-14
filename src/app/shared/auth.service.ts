@@ -24,9 +24,9 @@ constructor(public afAuth: AngularFireAuth) {
   }
 
   loginWithGoogle() {
-    return this.afAuth.auth.signInWithPopup(
-      new firebase.auth.GoogleAuthProvider());
-  }
+       return this.afAuth.auth.signInWithPopup(
+        new firebase.auth.GoogleAuthProvider());
+    }
 
   logOut() {
     this.afAuth.auth.signOut();
