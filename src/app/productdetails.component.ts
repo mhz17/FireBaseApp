@@ -30,28 +30,23 @@ export class ProductDetailsComponent implements OnInit {
         private db: AngularFireDatabase,
         private parameters: ActivatedRoute,
         private route: Router) {
+            this.key = parameters.snapshot.params.key;
         }
 
         ngOnInit() {
-            this.key = null;
             this.product = new Product(null, null, null, null);
             this.auth.getAuthState().subscribe(
                 (user) => {this.user = user;
                     if (this.user != null) {
 
-                        this.parameters.queryParams.subscribe(params => {
-                            this.key = params['key'];
-                            // console.log(this.key);
-                            if (this.key === null) {
-                                // console.log(this.key);
-                                this.loadProduct();
-                            }
-                        });
+                        if (this.key !== undefined) {
+                            this.loadProduct();
+                        }
+
                     }
                 }
             );
         }
-
 
         // Save Product to the db
         saveProduct() {
@@ -79,11 +74,11 @@ export class ProductDetailsComponent implements OnInit {
 
         // Load Product drop down list
         loadProduct() {
-            this.items = this.db.list('/product', ref => ref.orderByKey().equalTo(this.key));
-            this.items.snapshotChanges(['child_added'])
+            this.items = this.db.list('/product', ref => ref.orderByKey().equalTo(this.key.toString()));
+            this.items.valueChanges(['child_added'])
                 .subscribe(actions => {
                     actions.forEach(action => {
-                        console.log(action);
+                        this.product = action;
                     });
                 });
         }
