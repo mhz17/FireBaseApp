@@ -95,11 +95,17 @@ export class MyProductsComponent implements OnInit {
 
     // TODO Delete Selected my product (Work in progress.....)
     deleteMyProduct(item) {
-       let a: Observable<any>;
-       let b: any;
-       a = this.db.list('/userproducts/' + this.userid).snapshotChanges();
-       a.subscribe(i => b = i);
-       console.log(a);
+
+       let a: any;
+       a = this.db.list('/userproducts/' + this.userid);
+
+       a.valueChanges().subscribe(actions => {
+           actions.forEach(action => {
+            console.log(action.ref);
+            console.log(action.key);
+           });
+       });
+
     }
 
 }
