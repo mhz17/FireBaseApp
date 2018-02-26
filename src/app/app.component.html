@@ -7,15 +7,14 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a class="navbar-brand" href="#">My Diet App</a>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" routerLink="/home">Product List
-                    </a>
+                <li class="nav-item" #productlist>
+                    <a class="nav-link" routerLink="/home" routerLinkActive="active">Product List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/productdetails">Add Product</a>
+                    <a class="nav-link" routerLink="/productdetails" routerLinkActive="active">Add Product</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/myproducts">My Products</a>
+                <li class="nav-item" #myproducts>
+                    <a class="nav-link" routerLink="/myproducts" routerLinkActive="active">My Products</a>
                 </li>
             </ul>
             <div class="username">

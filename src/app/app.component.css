@@ -6,3 +6,7 @@
     margin-right: 5px;
     color: gray;
 }
+
+.nav-link active{
+    font-weight: bold;
+}

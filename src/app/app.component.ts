@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute, ɵROUTER_PROVIDERS } from '@angular/router';
+import { Router, ActivatedRoute, ɵROUTER_PROVIDERS, RouterLinkActive } from '@angular/router';
 import { Product, MyProduct } from './models/product.model';
 import { AngularFireAction } from 'angularfire2/database/interfaces';
 
@@ -30,13 +30,13 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    this.auth.getAuthState().subscribe(
-      (user) => {
-      this.user = user;
-        if (this.user != null) {
-          this.username = user['displayName'];
-        }
-      });
+      this.auth.getAuthState().subscribe(
+        (user) => {
+        this.user = user;
+          if (this.user != null) {
+            this.username = user['displayName'];
+          }
+        });
   }
 
   // Show Banner if not on login page
