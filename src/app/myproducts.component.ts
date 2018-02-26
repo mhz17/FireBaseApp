@@ -50,12 +50,11 @@ export class MyProductsComponent implements OnInit {
         this.myproduct = new MyProduct(null, null, null, null, null);
         this.auth.getAuthState().subscribe(
             (user) => {
-            this.user = user;
+                this.user = user;
                 if (this.user != null) {
                     this.userid = user['uid'];
                     this.loadMyProducts();
                     this.loadAllProducts().subscribe(i => this.listOfProducts = i);
-
                 }
             }
         );
@@ -95,7 +94,7 @@ export class MyProductsComponent implements OnInit {
         this.addProduct = false;
     }
 
-     // Set Show Product flag
+    // Set Show Product flag
     showAddProduct() {
         this.addProduct = true;
     }
@@ -103,12 +102,12 @@ export class MyProductsComponent implements OnInit {
     // TODO Delete Selected my product (Work in progress.....)
     deleteMyProduct(item) {
 
-       const dt = moment(this.date).format('DD-MM-YYYY');
-       let a: any;
-       a = this.db.list('/userproducts/' + this.userid + '/' + dt + '/' + item.key);
-       if (a != null) {
-           a.remove();
-       }
+        const dt = moment(this.date).format('DD-MM-YYYY');
+        let a: any;
+        a = this.db.list('/userproducts/' + this.userid + '/' + dt + '/' + item.key);
+        if (a != null) {
+            a.remove();
+        }
 
     }
 
