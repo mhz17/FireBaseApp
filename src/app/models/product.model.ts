@@ -1,5 +1,6 @@
 export class Product {
     constructor(
+        public key: string,
         public name: string,
         public fat: number,
         public proteins: number,
@@ -9,12 +10,10 @@ export class Product {
 
 export class MyProduct {
     constructor(
-        public date: string,
         public name: string,
         public fat: number,
         public proteins: number,
         public carbs: number,
-        public key: string,
         public weight: number
     ) {}
 }

@@ -31,6 +31,8 @@ export class MyProductsComponent implements OnInit {
     addProduct: boolean;
     listOfProducts: any;
     selectedProduct: any;
+    date: any;
+    displayDate: any;
 
     constructor(
         private auth: AuthService,
@@ -40,10 +42,12 @@ export class MyProductsComponent implements OnInit {
 
 
     ngOnInit() {
+        this.date = new Date();
+        this.displayDate = moment(this.date).format('DD/MM/YYYY');
         this.selectedProduct = null;
         this.addProduct = false;
-        this.product = new Product(null, null, null, null);
-        this.myproduct = new MyProduct(null, null, null, null, null, null, null);
+        this.product = new Product(null, null, null, null, null);
+        this.myproduct = new MyProduct(null, null, null, null, null);
         this.auth.getAuthState().subscribe(
             (user) => {
             this.user = user;
@@ -64,22 +68,25 @@ export class MyProductsComponent implements OnInit {
     }
 
     loadMyProducts() {
-        this.myitems = this.db.list<any>('/userproducts/' + this.userid).snapshotChanges().map(changes => {
+        console.log(this.date);
+        const date_filter = moment(this.date).format('DD-MM-YYYY');
+        this.myitems = this.db.list<any>('/userproducts/' + this.userid + '/' + date_filter).snapshotChanges().map(changes => {
             return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
         });
     }
 
     addProductToMyList() {
-        const dt = moment(this.myproduct.date).format('DD/MM/YYYY');
-        this.myproduct.key = this.selectedProduct.key;
+        const dt = moment(this.date).format('DD-MM-YYYY');
+        console.log(this.selectedProduct);
         this.myproduct.fat = this.selectedProduct.fat;
         this.myproduct.proteins = this.selectedProduct.proteins;
         this.myproduct.carbs = this.selectedProduct.carbs;
         this.myproduct.name = this.selectedProduct.name;
-        this.myproduct.date = dt;
-        const itemsRef = this.db.list('userproducts/' + this.userid);
-        itemsRef.push(this.myproduct);
-        this.myproduct = new MyProduct(null, null, null, null, null, null, null);
+
+        const itemsRef = this.db.list('userproducts/' + this.userid + '/' + dt);
+        itemsRef.set(this.selectedProduct.key, this.myproduct);
+
+        this.myproduct = new MyProduct(null, null, null, null, null);
         this.addProduct = false;
     }
 
@@ -95,18 +102,13 @@ export class MyProductsComponent implements OnInit {
 
     // TODO Delete Selected my product (Work in progress.....)
     deleteMyProduct(item) {
-       console.log('Item: ' + item);
-       let a: any;
-       a = this.db.list('/userproducts/' + this.userid);
 
-       a.valueChanges().subscribe(actions => {
-           actions.forEach(action => {
-               if (item.key === action.key) {
-                console.log('Reference: ' + action.ref);
-                console.log('Key: ' + action.key);
-               }
-           });
-       });
+       const dt = moment(this.date).format('DD-MM-YYYY');
+       let a: any;
+       a = this.db.list('/userproducts/' + this.userid + '/' + dt + '/' + item.key);
+       if (a != null) {
+           a.remove();
+       }
 
     }
 

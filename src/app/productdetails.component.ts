@@ -34,7 +34,7 @@ export class ProductDetailsComponent implements OnInit {
         }
 
         ngOnInit() {
-            this.product = new Product(null, null, null, null);
+            this.product = new Product(null, null, null, null, null);
             this.auth.getAuthState().subscribe(
                 (user) => {this.user = user;
                     if (this.user != null) {
@@ -54,7 +54,7 @@ export class ProductDetailsComponent implements OnInit {
             if (this.key === undefined) {
                 const userList = this.db.list('/product');
                 userList.push(this.product);
-                this.product = new Product(null, null, null, null);
+                this.product = new Product(null, null, null, null, null);
             } else {
                 const itemsRef = this.db.list('product');
                 itemsRef.set(this.key, {
@@ -63,7 +63,7 @@ export class ProductDetailsComponent implements OnInit {
                     proteins: this.product.proteins,
                     carbs: this.product.carbs
                 });
-                this.product = new Product(null, null, null, null);
+                this.product = new Product(null, null, null, null, null);
             }
 
             this.route.navigate(['home']);

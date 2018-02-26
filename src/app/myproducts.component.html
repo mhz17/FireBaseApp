@@ -2,17 +2,15 @@
 
     <div class="container">
         <div class="row">
-            <h3>My products</h3>
+            <h3>My products - {{displayDate}}</h3>
         </div>
         <div class="row rowheader">
             <div class="col col-md-2">Name</div>
             <div class="col col-md-2">Weight</div>
-            <div class="col col-md-2">Date</div>
         </div>
         <div class="row" *ngFor="let myitem of myitems | async">
             <div class="col col-md-2">{{myitem.name}}</div>
             <div class="col col-md-2">{{myitem.weight}}</div>
-            <div class="col col-md-2">{{myitem.date}}</div>
             <div class="col col-md-2 colbutton">
                 <button (click)="deleteMyProduct(myitem)" class="btn btn-danger">
                     <i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
@@ -41,18 +39,12 @@
         </div>
 
         <div class="row">
-            <div class="col-md-1">Date:</div>
-            <div class="col-md-2">
-                    <p-calendar [(ngModel)]="myproduct.date" dateFormat="dd/mm/yy" name="date" showButtonBar="true" aria-required="true"></p-calendar>
-            </div>
-        </div>
-
-        <div class="row">
             <div class="col-md-1">Weight:</div>
             <div class="col-md-2">
                     <input type="text" pInputText name="weight" [style]="{'width':'192px'}" [(ngModel)]="myproduct.weight" required>   
             </div>
         </div>
+
         <div class="row buttons">
             <div class="col-md-2">
                 <button (click)="addProductToMyList()" class="btn btn-secondary" type="submit" [disabled]="myform.invalid">Add</button>

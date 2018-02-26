@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         console.log('home page');
-        this.product = new Product(null, null, null, null);
+        this.product = new Product(null, null, null, null, null);
 
         // Check if user is authorised
         this.auth.getAuthState().subscribe(
